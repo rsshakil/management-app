@@ -1,0 +1,31 @@
+easy_admin:
+    design:
+        translations: 'ja'
+    entities:
+        Administrator:
+            class: App\Entity\Administrator
+            label: 'Administrators'
+            list:
+                fields:
+                    - id
+                    - name: '名前'
+                    - username: 'メールアドレス'
+                    - { property: 'password', type: 'text' }
+            form:
+                fields:
+                    - name
+                    - username
+                    - { property: 'password', type: 'password' }
+
+        Deposit:
+            class: App\Entity\Deposit
+            label: 'Deposit'
+            list:
+                fields:
+                    - { property: 'id', label: 'ID' }
+                    - { property: 'account.firstname', label: 'Name' }
+                    - { property: 'amount', label: 'Amount' }
+                    - { property: 'payment_method', label: 'Payment Method' }           
+                    - { property: 'receipt', label: 'Receipt' }           
+                    - { property: 'remarks', label: 'Remarks' }           
+                    - { property: 'created_at', label: 'Deposit at' }           

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Deposit pdf</title>
+    <style>
+        /* Add your PDF styles here */
+    </style>
+</head>
+<body>
+    <h1>Name: {{ entity.getAccount()}}</h1>
+    <h4>Amount: {{ entity.getAmount()}}</h4>
+    <h4>Payment Method: {{ entity.getPaymentMethod()}}</h4>
+    <h4>Total Created At: {{ entity.createdAt|date('Y-m-d')}}</h4>
+    
+    <!-- Add more fields as necessary -->
+</body>
+</html>

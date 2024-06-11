@@ -1,0 +1,28 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+webhook_auth_create_token:
+    path: /webhook/auth/create/token
+    controller: App\Controller\WebhookController::createToken
+    methods: [POST]
+webhook_bank_create_application:
+    path: /webhook/bank/application/create
+    controller: App\Controller\WebhookController::createBankApplication
+    methods: [POST]
+webhook_bank_create_transfer:
+    path: /webhook/bank/transfer/create
+    controller: App\Controller\WebhookController::createBankTransfer
+    methods: [POST]
+webhook_bank_get_deposit:
+    path: /webhook/bank/deposit/get
+    controller: App\Controller\WebhookController::getBankDeposit
+    methods: [POST]
+dashboard:
+    path: /admin
+    controller: App\Controller\Admin\DashboardController::index
+admin_deposit_download_pdf:
+    path: /admin/deposit/{id}/download-pdf
+    controller: App\Controller\Admin\DepositCrudController::downloadPdfAction
+

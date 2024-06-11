@@ -1,0 +1,9 @@
+# ダッシュボードのタイトル
+admin:
+    dashboard:
+        title: 'ダッシュボード'
+    entities:
+        Administrator:
+            name: '名前'
+            username: 'メールアドレス'
+            password: 'パスワード'

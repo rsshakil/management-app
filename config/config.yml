@@ -1,0 +1,18 @@
+easy_admin:
+    design:
+        translations: 'ja'
+    entities:
+        Administrator:
+            class: App\Entity\Administrator
+            label: 'Administrators'
+            list:
+                fields:
+                    - id
+                    - name: '名前'
+                    - username: 'メールアドレス'
+                    - { property: 'password', type: 'text' }
+            form:
+                fields:
+                    - name
+                    - username
+                    - { property: 'password', type: 'password' }        
