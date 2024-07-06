@@ -16,15 +16,20 @@ use App\Entity\Investment;
 use App\Entity\Agenda;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Locale;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+   
+
 
 class DashboardController extends AbstractDashboardController
 {
-
+    private $translator;
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
+
     }
 
     #[Route('/admin', name: 'admin')]
@@ -114,15 +119,18 @@ class DashboardController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
+        $companyName = $this->translator->trans('settings.companyName');
+
         return Dashboard::new()
-            ->setTitle('Al-Maaref private limited')
-            ->setTranslationDomain('admin')
-            ->setLocales(['ja', 'en']); // サポートするロケールを指定
+            ->setTitle($companyName)
+            // ->setTranslationDomain('admin')
+            ->setLocales(['en', 'bn']); // サポートするロケールを指定
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('dashboard', 'fa fa-home');
+        $dahabaodText = $this->translator->trans('menu.dashboard');
+        yield MenuItem::linkToDashboard($dahabaodText, 'fa fa-home');
         // yield MenuItem::linkToCrud('administrator', 'fas fa-list', Administrator::class);
         yield MenuItem::linkToCrud('account', 'fas fa-users', Account::class);
         yield MenuItem::linkToCrud('deposit', 'fas fa-cloud', Deposit::class);

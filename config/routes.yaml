@@ -3,6 +3,15 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+easyadmin:
+    path: /{_locale}/admin
+    controller: EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController::index
+    defaults: { _locale: 'en' }
+    requirements:
+        _locale: en|bn
+home:
+    path: /
+    controller: App\Controller\SecurityController::login
 webhook_auth_create_token:
     path: /webhook/auth/create/token
     controller: App\Controller\WebhookController::createToken

@@ -1,6 +1,6 @@
 easy_admin:
     design:
-        translations: 'ja'
+        translations: 'en'
     entities:
         Administrator:
             class: App\Entity\Administrator

@@ -1,0 +1,26 @@
+menu:
+  dashboard: "Dashboard"
+  investment: "Investment"
+  expense: "Expenese"
+  account: "Account"
+  agenda: "Agenda"
+  income: "income"
+field:
+  email: "Email"
+  password: "Password"
+easyadmin:
+  action:
+    new: "Add"
+    edit: "Edit"
+    delete: "Delete"
+    show: "Show"
+    download: "Download PDF"
+settings:
+  companyName: "Al-Maaref pvt ltd"
+pages:
+  deposit:
+    pageTitleSingular: "Deposit"
+    pageTitlePulural: "Deposits"
+    indexTitle: "Deposit list"
+    detailTitle: "Deposit Detail"
+    editTitle: "Edit Deposit"

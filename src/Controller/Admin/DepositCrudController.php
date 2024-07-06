@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 class DepositCrudController extends AbstractCrudController
 {
@@ -28,11 +30,15 @@ class DepositCrudController extends AbstractCrudController
     private $requestStack;
     private $entityManager;
     private $pdfService;
-    public function __construct(AccountRepository $acc, RequestStack $requestStack, EntityManagerInterface $entityManager, PdfService $pdfService){
+    private $translator;
+    
+    public function __construct(AccountRepository $acc, RequestStack $requestStack, EntityManagerInterface $entityManager, PdfService $pdfService, TranslatorInterface $translator){
         $this->acc = $acc;
         $this->requestStack = $requestStack;
         $this->entityManager = $entityManager;
         $this->pdfService = $pdfService;
+        $this->translator = $translator;
+
     }
     public static function getEntityFqcn(): string
     {
@@ -42,6 +48,12 @@ class DepositCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            // ->setEntityLabelInSingular('管理者')
+            // ->setEntityLabelInPlural('管理者一覧')
+            // ->setPageTitle(Crud::PAGE_INDEX, '管理者一覧')
+            // ->setPageTitle(Crud::PAGE_DETAIL, '管理者詳細')
+            // ->setPageTitle(Crud::PAGE_NEW, '管理者作成')
+            // ->setPageTitle(Crud::PAGE_EDIT, '管理者編集')
             ->setDefaultSort(['id' => 'DESC'])
             ->setSearchFields(['amount', 'payment_method','remarks', 'account.firstname']); // Specify searchable fields
     }
@@ -80,17 +92,33 @@ class DepositCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $downloadPdf = Action::new('downloadPdf', 'Download PDF')
+        $downloadPdf = Action::new('downloadPdf', $this->translator->trans('easyadmin.action.download'))
             ->linkToRoute('admin_deposit_download_pdf', function (Deposit $entity): array {
                 return [
                     'id' => $entity->getId(),
                 ];
             });
 
-        return $actions
-            ->add(Crud::PAGE_INDEX, $downloadPdf)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->add(Crud::PAGE_DETAIL, $downloadPdf);
+            return $actions
+            ->update(Crud::PAGE_INDEX, Action::NEW, function(Action $action){
+                return $action->setLabel($this->translator->trans('easyadmin.action.new'));
+            })
+            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
+                return $action->setLabel($this->translator->trans('easyadmin.action.edit'));
+            })
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action->setLabel($this->translator->trans('easyadmin.action.delete'));
+            })->add(Crud::PAGE_INDEX, $downloadPdf)
+                ->add(Crud::PAGE_INDEX, Action::DETAIL)
+                ->update(Crud::PAGE_INDEX, Action::DETAIL, function(Action $action){
+                    return $action->setLabel($this->translator->trans('easyadmin.action.show'));
+                })
+                ->add(Crud::PAGE_DETAIL, $downloadPdf);
+
+        // return $actions
+        //     ->add(Crud::PAGE_INDEX, $downloadPdf)
+        //     ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        //     ->add(Crud::PAGE_DETAIL, $downloadPdf);
     }
 
     /**
